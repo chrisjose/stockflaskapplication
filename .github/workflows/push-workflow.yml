@@ -1,4 +1,4 @@
-name: Python package
+name: Heroku CD
 
 on:
   push:
