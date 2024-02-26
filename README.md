@@ -6,6 +6,9 @@ that provides stock data by fetching it from AlphaVantage.co REST API.
 Due to the limitations in the free REST API, we will only be providing 
 historical data for limited number of stocks.
 
+## Flowchart Diagram
+![flowchart.png](images%2Fflowchart.png)
+
 ## Features
 
 - Fetches the stock data from Alphavantage.co REST API
@@ -49,3 +52,4 @@ Run the microservices below:
 - `/health` - Endpoint to get the health check and returns 200 OK
 - `/metrics` - For Prometheus metrics, this endpoint can be used
 
+![prometheus.png](images%2Fprometheus.png)
