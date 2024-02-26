@@ -1,1 +1,1 @@
-web: uvicorn applications.data_analyzer.app:app --host=0.0.0.0 --port=80
+web: gunicorn applications.data_analyzer.app:app --host=0.0.0.0 --port=${PORT}
