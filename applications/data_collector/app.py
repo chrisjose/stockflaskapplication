@@ -11,8 +11,8 @@ from models.stockinfo import StockInfo
 load_dotenv()
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
-STOCK_API_BASE_URL = os.environ.get("DEMO_STOCK_API_BASE_URL")
-STOCK_API_KEY = os.environ.get("DEMO_STOCK_API_KEY")
+STOCK_API_BASE_URL = os.environ.get("STOCK_API_BASE_URL")
+STOCK_API_KEY = os.environ.get("STOCK_API_KEY")
 
 
 def create_db():
