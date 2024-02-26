@@ -6,4 +6,4 @@ scrape_configs:
     metrics_path: '/metrics'
     scrape_interval: 5s
     static_configs:
-      - targets: [ '***.herokuapp.com' ]
+      - targets: [ 'https://stockflaskapplication-22a2f4752d69.herokuapp.com' ]
