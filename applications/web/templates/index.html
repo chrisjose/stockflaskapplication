@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Stock App</title>
+    <link rel="stylesheet" type="text/css" 
+          href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>Stock Data</h1>
+    <h4>Due to API limitation, we are showing data for limited stocks</h4>
+
+    <form method="POST">
+        <select name="dropdown">
+            <option value="MSFT" {% if selected_option == "MSFT" %} selected {% endif %}>MSFT</option>
+            <option value="IBM" {% if selected_option == "IBM" %} selected {% endif %}>IBM</option>
+        </select>
+        <input type="submit" value="Submit">
+    </form>
+
+    <br />
+    <br />
+
+    <div id="stockdata" class="stockTable">
+        {% if stock_data %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Open</th>
+                        <th>Close</th>
+                        <th>High</th>
+                        <th>Low</th>
+                        <th>Change</th>
+                        <th>% Change</th>
+                        <th>Last Updated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in stock_data %}
+                        <tr>
+                           <td>{{ entry.symbol }}</td>
+                           <td>{{ entry.open }}</td>
+                           <td>{{ entry.close }}</td>
+                           <td>{{ entry.high }}</td>
+                           <td>{{ entry.low }}</td>
+                           <td>{{'%0.2f' % entry.change_difference|float}}</td>
+                           <td>{{'%0.2f' % entry.change_percentage|float}}%</td>
+                           <td>{{ entry.last_updated.split('T')[0] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <br />
+            <p>Please select a stock from the dropdown and submit.</p>
+        {% endif %}
+    </div>
+</div>
+</body>
+</html>
