@@ -2,27 +2,27 @@
 # Runs on the existing collection of data
 # Calculates the change in stock prices and the growth percentage
 import asyncio
+import json
 import os
 import pika
 import psycopg2
 import uvicorn
 
-from fastapi import FastAPI, Query, Depends
 from dotenv import load_dotenv
 from models.stockinfo import StockInfo
 from datetime import datetime
+from flask import Flask, request, Response
 
 load_dotenv()
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
-app = FastAPI()
+app = Flask(__name__)
 
+@app.route("/get-stock-info", methods=['GET'])
+def get_stock_info_from_db():
+    symbol = request.args.get('symbol')
 
-@app.get("/get-stock-info")
-async def get_stock_info_from_db(
-        symbol: str = Query(...)
-):
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cursor = conn.cursor()
     stockInfo = []
@@ -51,7 +51,10 @@ async def get_stock_info_from_db(
         cursor.close()
         conn.close()
 
-    return stockInfo
+    dict_list = [obj.__dict__ for obj in stockInfo]
+    json_string = json.dumps(dict_list, indent=4, sort_keys=True, default=str)
+
+    return Response(response=json_string, status=200, mimetype="application/json")
 
 
 def analyze_data_on_call():
@@ -155,15 +158,5 @@ async def consume_message_queue():
     connection.close()
 
 
-async def main():
-    asyncio.create_task(consume_message_queue())
-
-    port = int(os.getenv("DATA_ANALYZER_SERVICE_PORT"))
-    host = os.getenv("DATA_ANALYZER_SERVICE_HOST")
-
-    # Start the uvicorn web server
-    uvicorn.run("app:app", host=host, port=port, reload=True)
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
+if __name__ == '__main__':
+    app.run()
