@@ -153,17 +153,3 @@ async def consume_message_queue():
     print(' [*] Waiting for messages:')
     channel.start_consuming()
     connection.close()
-
-
-async def main():
-    asyncio.create_task(consume_message_queue())
-
-    port = int(os.getenv("DATA_ANALYZER_SERVICE_PORT"))
-    host = os.getenv("DATA_ANALYZER_SERVICE_HOST")
-
-    # Start the uvicorn web server
-    uvicorn.run("app:app", host=host, port=port, reload=True)
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
